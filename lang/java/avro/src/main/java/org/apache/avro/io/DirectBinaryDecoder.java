@@ -35,9 +35,9 @@ import org.apache.avro.util.ByteBufferInputStream;
  */
 
 class DirectBinaryDecoder extends BinaryDecoder {
-  private InputStream in;
+  protected InputStream in;
 
-  private class ByteReader {
+  protected class ByteReader {
     public ByteBuffer read(ByteBuffer old, int length) throws IOException {
       ByteBuffer result;
       if (old != null && length <= old.capacity()) {
@@ -52,7 +52,7 @@ class DirectBinaryDecoder extends BinaryDecoder {
     }
   }
 
-  private class ReuseByteReader extends ByteReader {
+  protected class ReuseByteReader extends ByteReader {
     private final ByteBufferInputStream bbi;
     
     public ReuseByteReader(ByteBufferInputStream bbi) {
@@ -70,7 +70,7 @@ class DirectBinaryDecoder extends BinaryDecoder {
     
   }
 
-  private ByteReader byteReader;
+  protected ByteReader byteReader;
 
   DirectBinaryDecoder(InputStream in) {
     super();

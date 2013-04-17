@@ -176,6 +176,14 @@ public class DecoderFactory {
     }
   }
 
+  public BinaryDecoder directBinaryStreamDecoder(InputStream in, BinaryDecoder reuse) {
+    if (null == reuse || !reuse.getClass().equals(DirectBinaryStreamDecoder.class)) {
+      return new DirectBinaryStreamDecoder(in);
+    } else {
+      return ((DirectBinaryStreamDecoder)reuse).configure(in);
+    }
+  }
+
   /** @deprecated use {@link #binaryDecoder(byte[], int, int, BinaryDecoder)}
    * instead */
   @Deprecated

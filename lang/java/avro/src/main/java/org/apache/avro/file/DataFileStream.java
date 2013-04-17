@@ -52,18 +52,18 @@ public class DataFileStream<D> implements Iterator<D>, Iterable<D>, Closeable {
   public static final class Header {
     Schema schema;
     Map<String,byte[]> meta = new HashMap<String,byte[]>();
-    private transient List<String> metaKeyList = new ArrayList<String>();
+    protected transient List<String> metaKeyList = new ArrayList<String>();
     byte[] sync = new byte[DataFileConstants.SYNC_SIZE];
-    private Header() {}
+    protected Header() {}
   }
 
-  private DatumReader<D> reader;
+  protected DatumReader<D> reader;
   private long blockSize;
   private boolean availableBlock = false;
-  private Header header;
+  protected Header header;
 
   /** Decoder on raw input stream.  (Used for metadata.) */
-  BinaryDecoder vin;
+  protected BinaryDecoder vin;
   /** Secondary decoder, for datums.
    *  (Different than vin for block segments.) */
   BinaryDecoder datumIn = null;
@@ -72,7 +72,7 @@ public class DataFileStream<D> implements Iterator<D>, Iterable<D>, Closeable {
   long blockCount;                              // # entries in block
   long blockRemaining;                          // # entries remaining in block
   byte[] syncBuffer = new byte[DataFileConstants.SYNC_SIZE];
-  private Codec codec;
+  protected Codec codec;
 
   /** Construct a reader for an input stream.  For file-based input, use 
    * {@link DataFileReader}.  This will buffer, wrapping with a 
